@@ -61,12 +61,20 @@ public class Location implements Serializable
 		return population;
 	}
 	
-	public double distance(Location other)
+	public double distance(Location location)
 	{
-		if(other.getZipcode().equals(zipcode))
+		if(location.getZipcode().equals(zipcode))
 			return 0.0;
 		
-		Pair<Double, Double> otherCoords = other.getCoordinates();
+		return distance(location.getCoordinates());
+	}
+	
+	public double distance(Pair<Double, Double> otherCoords)
+	{
+		double eps = 1e-3;
+		if(Math.abs(coordinates.getLeft() - otherCoords.getLeft()) < eps
+				&& Math.abs(coordinates.getRight() - otherCoords.getRight()) < eps)
+			return 0.0;
 		
 		double dist = Math.sin(Math.toRadians(coordinates.getLeft())) *
 				Math.sin(Math.toRadians(otherCoords.getLeft())) +
